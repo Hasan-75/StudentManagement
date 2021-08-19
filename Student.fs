@@ -30,7 +30,7 @@ module Student =
                     LastName  = "(Not given)"
                 |}
         | _
-            -> raise(Exception(sprintf "Invalid name format: %s" fullname))
+            -> raise(FormatException(sprintf "Invalid name format: %s" fullname))
 
 
     let fromString (row: string) =
