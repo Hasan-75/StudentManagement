@@ -5,7 +5,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Score.fs" />
-    <Compile Include="Float.fs" />
     <Compile Include="Student.fs" />
     <Compile Include="Program.fs" />
   </ItemGroup>

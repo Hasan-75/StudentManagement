@@ -1,7 +1,6 @@
 namespace Student
 
 open System
-open Float
 open Score
 
 module Student =
@@ -38,7 +37,8 @@ module Student =
         let scores =
             cols
             |> Array.skip 2
-            |> Array.choose (tryParseFromStr >> calculateScore)
+            |> Array.choose 
+                (Score.tryParseFromStr >> Score.calculateScore)
 
         let name = cols.[0] |> parseName
 
@@ -63,6 +63,14 @@ module Student =
             }
 
     let printStudent (student: Student) =
-        printfn "%s %s    %s    %.2f    %.2f    %.2f"
+        printfn "\t%s %s    %s    %.2f    %.2f    %.2f"
             student.FirstName student.LastName student.Id student.MeanScore
             student.MaxScore student.MinScore
+
+    let printGroup (groupTitle: 'T, students: Student[]) =
+        printfn "%O:" groupTitle
+        printfn "======================================="
+        students
+        |> Array.sortByDescending (fun x -> x.MeanScore)
+        |> Array.iter printStudent
+        printfn "\n\n"

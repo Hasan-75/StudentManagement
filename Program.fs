@@ -1,14 +1,19 @@
 open System
 open System.IO
 open Student
-
+open Score
 
 let processFile (filename: string) =
     File.ReadAllLines filename
     |> Array.skip 1
     |> Array.map Student.fromString
-    |> Array.sortBy (fun x -> x.FirstName)
-    |> Array.iter Student.printStudent
+    |> Array.sortByDescending (fun x -> x.MeanScore)
+    |> Array.groupBy
+        (fun x ->
+            x.MeanScore
+            |> Score.determineResult
+        )
+    |> Array.iter Student.printGroup
 
 [<EntryPoint>]
 let main argv =
