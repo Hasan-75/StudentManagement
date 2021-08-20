@@ -8,7 +8,11 @@ let processFile (filename: string) =
     |> Array.skip 1
     |> Array.map Student.fromString
     |> Array.sortByDescending (fun x -> x.MeanScore)
-    |> Array.groupBy (fun x -> Score.determineResult x.MeanScore)
+    |> Array.groupBy
+        (fun x ->
+            x.MeanScore
+            |> Score.determineResult
+        )
     |> Array.iter Student.printGroup
 
 [<EntryPoint>]
