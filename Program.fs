@@ -2,11 +2,19 @@ open System
 open System.IO
 open Student
 open Score
+open School
 
-let processFile (filename: string) =
-    File.ReadAllLines filename
+let processFile (studentFilePath: string, schoolCodesFilePath: string) =
+    let schoolCodes =
+        schoolCodesFilePath
+        |> File.ReadLines
+        |> Seq.skip 1
+        |> Seq.map School.parseFromString
+        |> Map.ofSeq
+
+    File.ReadAllLines studentFilePath
     |> Array.skip 1
-    |> Array.map Student.fromString
+    |> Array.map (Student.fromString schoolCodes)
     |> Array.sortByDescending (fun x -> x.MeanScore)
     |> Array.groupBy
         (fun x ->
@@ -15,12 +23,17 @@ let processFile (filename: string) =
         )
     |> Array.iter Student.printGroup
 
+
+//dotnet run .\resources\StudentScoresSchoolAlphaCodes.txt .\resources\SchoolCodesAlpha.txt
 [<EntryPoint>]
 let main argv =
-    if argv.Length > 0 then
-        let filename = argv.[0]
+    if argv.Length > 1 then
+        let studentFilePath = argv.[0]
+        let schoolCodeFilePath = argv.[1]
         try
-            processFile filename |> ignore
+            (studentFilePath, schoolCodeFilePath)
+            |> processFile
+            |> ignore
             0
         with
         | :? FormatException as ex ->
@@ -33,5 +46,5 @@ let main argv =
             printfn "Something went wrong: %s" ex.Message
             4
     else
-        printfn "Filename not given. Try dotnet run <filename>"
+        printfn "Filenames not given. Try dotnet run <filename> <filename>"
         1

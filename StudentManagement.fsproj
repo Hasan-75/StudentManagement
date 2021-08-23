@@ -4,6 +4,7 @@
     <TargetFramework>net5.0</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="School.fs" />
     <Compile Include="Score.fs" />
     <Compile Include="Student.fs" />
     <Compile Include="Program.fs" />

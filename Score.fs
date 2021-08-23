@@ -2,7 +2,7 @@ namespace Score
 
 module Score =
     [<Literal>]
-    let PASS_THRESHOLD = 50.0
+    let PASS_THRESHOLD = 40.0
 
     type TestScore =
         | Absent
